@@ -13,9 +13,9 @@ import networkx as nx
 
 _ = go.Figure(layout=dict(template='plotly'))
 
-DF_PATH = "Dataset_VisContest_Rapid_Alloy_development_v3.xlsx"
+DF_URL = "https://www.dropbox.com/scl/fi/ghz31iz0ujpgw25bz9qy5/Dataset_VisContest_Rapid_Alloy_development_v3.xlsx?rlkey=7ftblzur9dnmkw9h7z5q7vfsq&st=tn70gyv5&dl=1"
 df = (
-    pd.read_excel(DF_PATH, engine="openpyxl")
+    pd.read_excel(DF_URL, engine="openpyxl")
       .dropna(subset=['CSC'])
       .reset_index(drop=True)
 )
