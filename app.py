@@ -10,6 +10,8 @@ from scipy.stats import pearsonr
 from plotly.subplots import make_subplots
 from functools import lru_cache
 import networkx as nx
+from flask import Flask
+from waitress import serve
 
 _ = go.Figure(layout=dict(template='plotly'))
 
@@ -87,8 +89,12 @@ def get_binned_unique_idx(vars_tuple: tuple):
 @lru_cache(maxsize=256)
 def get_corr(var1: str, var2: str):
     return pearsonr(df[var1], df[var2])
-
-app = dash.Dash(__name__, suppress_callback_exceptions=True)
+server = Flask(__name__)
+app = dash.Dash(
+    __name__,
+    server=server,
+    suppress_callback_exceptions=True
+)
 
 title = html.H2('PCA & Scatter Dashboard')
 selector = html.Div([
@@ -563,6 +569,6 @@ def update_corr_network(vars_selected):
         margin=dict(l=20, r=20, t=50, b=20)
     )
     return fig
-server = app.server
+
 if __name__ == '__main__':
-    app.run(debug=False)
+    serve(server, host='127.0.0.1', port=8000)
